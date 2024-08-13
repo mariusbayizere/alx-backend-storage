@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+git add . ; git status ; git commit -m "0x01. NoSQL" ; git push --force ; echo "Done to push to git !! " ;
+echo "Thank you use"
