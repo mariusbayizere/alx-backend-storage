@@ -22,11 +22,10 @@ def count_calls(method: Callable) -> Callable:
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         """
-        Wrapper function that increments the call count the original method.
+        Wrapper function that increments the call count and calls
+        the original method.
         """
-        # Increment the count for this method's qualified name
         self._redis.incr(method.__qualname__)
-        # Call the original method and return its result
         return method(self, *args, **kwargs)
     return wrapper
 
@@ -67,8 +66,8 @@ class Cache:
 
         Args:
             key (str): The key to retrieve data.
-            fn (Callable, optional): A callable used to convert the data to
-            the desired format.
+            fn (Callable, optional): A callable used to convert the data
+            to the desired format.
 
         Returns:
             Union[str, bytes, int, float, None]: The retrieved data,

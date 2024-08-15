@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-""" Main file """
+"""
+Main file to test Cache class functionality.
+"""
 
-Cache = __import__('exercise').Cache
+from exercise import Cache
 
 cache = Cache()
 
