@@ -6,6 +6,29 @@ Module to interact with Redis and store/retrieve data.
 from typing import Union, Callable, Optional
 from uuid import uuid4
 import redis
+import functools
+
+
+def count_calls(method: Callable) -> Callable:
+    """
+    Decorator that counts the number of times a method is called.
+
+    Args:
+        method (Callable): The method to be decorated.
+
+    Returns:
+        Callable: The decorated method with counting functionality.
+    """
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """
+        Wrapper function that increments the call count the original method.
+        """
+        # Increment the count for this method's qualified name
+        self._redis.incr(method.__qualname__)
+        # Call the original method and return its result
+        return method(self, *args, **kwargs)
+    return wrapper
 
 
 class Cache:
@@ -20,6 +43,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Stores the given data in Redis with a randomly generated key.
