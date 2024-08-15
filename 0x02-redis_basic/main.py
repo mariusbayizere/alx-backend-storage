@@ -25,3 +25,6 @@ outputs = cache._redis.lrange(
 
 print("inputs: {}".format(inputs))
 print("outputs: {}".format(outputs))
+
+# Replay the history of the store method
+cache.replay(cache.store)
